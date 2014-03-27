@@ -14,16 +14,16 @@ def send_mail(subject, text_content, from_email, to, html_content=None, attachme
         msg.attach_alternative(html_content, "text/html")
     if attachments:
         for att in attachments:
-            if att.attached_file:
-                mimetype = mimetypes.guess_type(att.attached_file.url)[0]
+            if att:
+
+                mimetype = mimetypes.guess_type(att.name)[0]
                 if str(mimetype) in ('image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'):
                     try:
-                        with open(att.attached_file.path) as f:
-                            email_embed_image(msg, att.name, f.read())
+                        email_embed_image(msg, att.name, att.read())
                     except Exception, e:
                         print e
                 else:
-                    msg.attach_file("%s" % (att.attached_file.url[1:]))
+                    msg.attach_file(att)
     return msg.send()
 
 
