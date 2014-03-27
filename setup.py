@@ -10,6 +10,6 @@ setup(
     packages=['twentytab'],
     license='MIT License',
     install_requires=[
-        'Django >=1.6',
+        'Django',
     ],
 )
