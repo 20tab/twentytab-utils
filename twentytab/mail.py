@@ -4,7 +4,7 @@ import mimetypes
 from django.core.mail import EmailMultiAlternatives
 
 
-def send_mail(subject, text_content, from_email, to, html_content=None, attachments=None, cc=[], bcc=[]):
+def send_mail(subject, text_content, from_email, to, html_content=None, attachments=[], cc=[], bcc=[]):
     """
     This function sends mail using EmailMultiAlternatives and attachs all attachments
     passed as parameters
@@ -23,11 +23,11 @@ def send_mail(subject, text_content, from_email, to, html_content=None, attachme
                     except Exception, e:
                         print e
                 else:
-                    msg.attach_file(att)
+                    msg.attach_file(att.name)
     return msg.send()
 
 
-def send_rendered_mail(subject, template_name, context_dict, from_email, to, attachments=None, cc=[], bcc=[]):
+def send_rendered_mail(subject, template_name, context_dict, from_email, to, attachments=[], cc=[], bcc=[]):
     """
     It sends mail after rendering html content and normal text using two different template (.html, .txt) with
     the same name.
