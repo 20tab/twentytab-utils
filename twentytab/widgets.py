@@ -2,13 +2,15 @@
 Contains some fields as utilities
 """
 from django import forms
-from django.forms.util import flatatt
 from django.utils.encoding import force_unicode, force_text
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
 from itertools import chain
 from twentytab.countries import CONTINENTS
-
+try:
+    from django.forms.utils import flatatt
+except ImportError:
+    from django.forms.util import flatatt
 
 class CountrySelect(forms.Select):
     allow_multiple_selected = False
