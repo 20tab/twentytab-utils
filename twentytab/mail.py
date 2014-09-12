@@ -16,14 +16,15 @@ def send_mail(subject, text_content, from_email, to, html_content=None, attachme
         for att in attachments:
             if att:
 
-                mimetype = mimetypes.guess_type(att.name)[0]
+                mimetype = mimetypes.guess_type(att)[0]
                 if str(mimetype) in ('image/jpeg', 'image/pjpeg', 'image/png', 'image/gif'):
                     try:
-                        email_embed_image(msg, att.name, att.read())
+                        with open(att, 'r') as f:
+                            email_embed_image(msg, att, f.read())
                     except Exception, e:
                         print e
                 else:
-                    msg.attach_file(att.name)
+                    msg.attach_file(att)
     return msg.send()
 
 
