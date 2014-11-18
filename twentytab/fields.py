@@ -52,13 +52,6 @@ class CountryField(models.CharField):
         """
         return "CharField"
 
-    def formfield(self, **kwargs):
-        defaults = {
-            'form_class': forms.NullTrueField
-        }
-        defaults.update(kwargs)
-        return super(CountryField, self).formfield(**defaults)
-
 
 class ContinentCountryField(models.CharField):
     """
