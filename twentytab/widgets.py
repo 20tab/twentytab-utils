@@ -4,8 +4,10 @@ Contains some fields as utilities
 from django import forms
 from django.utils.encoding import force_unicode, force_text
 from django.utils.safestring import mark_safe
-from django.utils.html import format_html
 from itertools import chain
+from django.forms.utils import flatatt
+from django.utils.html import format_html
+from django.forms.widgets import Widget
 from twentytab.countries import CONTINENTS
 try:
     from django.forms.utils import flatatt
@@ -76,3 +78,14 @@ class NullCheckboxWidget(forms.CheckboxInput):
         # Sometimes data or initial could be None or u'' which should be the
         # same thing as False.
         return bool(initial) != bool(data)
+
+
+class Div(Widget):
+
+    def render(self, name, value, attrs=None):
+        if value is None:
+            value = ''
+        final_attrs = self.build_attrs(attrs, name=name)
+        return format_html('<div{0}>\r\n{1}</div>',
+                           flatatt(final_attrs),
+                           force_text(value))
