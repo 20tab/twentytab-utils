@@ -30,7 +30,7 @@ def compare_dicts(dict1, dict2):
 
 def getItalianAccentedVocal(vocal, acc_type="g"):
     """
-    It returns given vocal with grave or acute accent 
+    It returns given vocal with grave or acute accent
     """
     vocals = {'a': {'g': u'\xe0', 'a': u'\xe1'},
               'e': {'g': u'\xe8', 'a': u'\xe9'},

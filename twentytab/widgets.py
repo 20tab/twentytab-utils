@@ -2,10 +2,9 @@
 Contains some fields as utilities
 """
 from django import forms
-from django.utils.encoding import force_unicode, force_text
+from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from itertools import chain
-from django.forms.utils import flatatt
 from django.utils.html import format_html
 from django.forms.widgets import Widget
 from twentytab.countries import CONTINENTS
@@ -13,6 +12,7 @@ try:
     from django.forms.utils import flatatt
 except ImportError:
     from django.forms.util import flatatt
+
 
 class CountrySelect(forms.Select):
     allow_multiple_selected = False
@@ -49,17 +49,18 @@ class CountrySelect(forms.Select):
 
 
 class NullCheckboxWidget(forms.CheckboxInput):
+
     def render(self, name, value, attrs=None):
-        final_attrs = self.build_attrs(attrs, type='checkbox', name=name)
+        final_attrs = self.build_attrs(base_attrs=attrs, extra_attrs={'type': 'checkbox', 'name': name})
         try:
             result = self.check_test(value)
-        except: # Silently catch exceptions
+        except:  # Silently catch exceptions
             result = False
         if result:
             final_attrs['checked'] = 'checked'
         if not (value is True or value is False or value is None or value == ''):
             # Only add the 'value' attribute if a value is non-empty.
-            final_attrs['value'] = force_unicode(value)
+            final_attrs['value'] = force_text(value)
         return mark_safe(u'<input%s />' % flatatt(final_attrs))
 
     def value_from_datadict(self, data, files, name):
@@ -70,7 +71,7 @@ class NullCheckboxWidget(forms.CheckboxInput):
         value = data.get(name)
         # Translate true and false strings to boolean values.
         values = {'on': True, 'false': False}
-        if isinstance(value, basestring):
+        if isinstance(value, str):
             value = values.get(value.lower(), value)
         return value
 
