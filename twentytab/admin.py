@@ -41,7 +41,7 @@ class ButtonForm(object):
         self.submit_value = submit_value
         self.form_action = form_action
         self.form_method = form_method
-        self.input_dict = input_dict  #{'name':'value',}
+        self.input_dict = input_dict  # {'name':'value',}
         self.css_class = css_class
 
 

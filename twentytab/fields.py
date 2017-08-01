@@ -7,13 +7,10 @@ from twentytab import forms
 from twentytab.countries import CONTINENT_COUNTRIES, COUNTRIES
 
 
-class NullTrueFieldBase(models.SubfieldBase):
-    def to_python(self, value):
-        return value == True
-
-
 class NullTrueField(models.NullBooleanField):
-    __metaclass__ = NullTrueFieldBase
+
+    def from_db_value(self, value, expression, connection, context):
+        return value == True
 
     def to_python(self, value):
         if value is True:
@@ -74,7 +71,8 @@ class ContinentCountryField(models.CharField):
 try:
     from south.modelsinspector import add_introspection_rules
 
-    add_introspection_rules([],
+    add_introspection_rules(
+        [],
         ["^twentytab\.fields\.ContinentCountryField", "^twentytab\.fields\.CountryField",
          "^twentytab\.fields\.NullTrueField"])
 except ImportError:

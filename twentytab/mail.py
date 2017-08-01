@@ -21,8 +21,8 @@ def send_mail(subject, text_content, from_email, to, html_content=None, attachme
                     try:
                         with open(att, 'r') as f:
                             email_embed_image(msg, att, f.read())
-                    except Exception, e:
-                        print e
+                    except Exception as e:
+                        print(e)
                 else:
                     msg.attach_file(att)
     return msg.send()
